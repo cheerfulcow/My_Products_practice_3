@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление товара</title>
+    <style>
+
+        body {
+            background: black;
+            font-family: Arial;
+            font-size: 14pt;
+            color: #a59296;
+            text-align: center;
+            margin: auto;
+        }
+
+        .container {
+            margin: 50px auto;
+        }
+        .label{
+            margin: 2px 0 0 0;
+        }
+        input {
+            width: 300px;
+        }
+
+        .invalidInput {
+            color: red;
+            font-size: 10pt;
+            margin: 2px 0 0 0;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+<h3>Добавление товара</h3>
+<!--Создаем форму. Указываем, что метд передачи данных = POST на /product/add, th:object = привязываем объект к данной форме (дальше он нам поможет при валдации)-->
+<form  th:method="POST" th:action="@{/product/add}" th:object="${product}">
+<!--    Далее создаем инпуты и связываем их с полями нашей модели (объектом класса ProductController)-->
+   <div class="label"> <label for="name">Введите наименование товара</label></div>
+    <input type="text" th:field="*{name}" id="name">
+    <div class="invalidInput" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    <br>
+    <div class="label"> <label for="price">Введите цену товара</label></div>
+    <input type="text" th:field="*{price}" id="price">
+    <div class="invalidInput" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+    <br>
+    <div class="label"> <label for="weight">Введите Вес товара</label></div>
+    <input type="text" th:field="*{weight}" id="weight">
+    <div class="invalidInput" th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"></div>
+    <br>
+    <div class="label"> <label for="provider">Выберите поставщика</label></div>
+    <select id="provider" th:field="*{provider}">
+<!--создаем пункт выпадающего списка. Т позволяет взять все объекты из файла enumm.Provider. В рамках файла у нас есть 4 поставщика.
+указанный путь - это путь где  лежит enumm (src - main - java - com - и тд).
+Each - цикл for, каждый объект с каждой итерацией цикла помещаем в переменную enum значение объекта-->
+        <option th:each="enum : ${T(com.example.my_products.enumm.Provider).values()}"
+                th:text="${enum.getDisplayValue()}"
+                th:value="${enum}"
+        ></option>
+    </select>
+    <div class="invalidInput" th:if="${#fields.hasErrors('provider')}" th:errors="*{provider}"></div>
+    <br><br>
+    <input type="submit" value="Добавить">
+</form>
+</div>
+
+</body>
+</html>

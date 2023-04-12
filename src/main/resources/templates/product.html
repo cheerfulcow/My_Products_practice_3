@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список товаров</title>
+    <style>
+        body {
+            background: black;
+            font-family: Arial;
+            font-size: 14pt;
+            color: #a59296;
+            margin: 50px 50px;
+        }
+
+        button {
+            height: 30px;
+            padding: 5px 12px;
+            margin: 5px 5px;
+            background: #918d8e;
+            border-radius: 5px;
+            color: black;
+        }
+        button a{
+            color: black;
+        }
+
+        a{
+            text-decoration: none;
+            color: #a59296;
+            width: 300px;
+        }
+
+        .container {
+            border: 1px solid #a59296;
+            border-radius: 5px;
+            margin: 5px;
+            padding: 5px 10px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+<h3>Список товаров:</h3>
+<div th:each="product : ${product}" class="container">
+<!--    для каждого товара создаём ссылку. При нажатии на ссылку будем переходить на product/{id} (id - динамический, т.к. для каждого товара он свой)"
+тут {id} - это переменная и далее мы заполняем эту переменную id = ${обращаемся к текущему элементу (product) и вызываем метод getId, которым мы получаем id}
+Далее с помощью метода text шаблонизатора th мы выводим название товара, на который идёт ссылка-->
+    <a th:href="@{/product/{id}(id=${product.getId()})}" th:text="${product.getName()}">Это сообщение будем замененно тем, что вытащит th:text</a>
+</div>
+<button> <a href="/product/add">Добавление товара</a> </button>
+</body>
+</html>
